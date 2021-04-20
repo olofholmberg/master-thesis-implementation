@@ -1,3 +1,4 @@
+# --- VM APPS EASY-SETTINGS ---
 #
 # Copyright 2019, Data61
 # Commonwealth Scientific and Industrial Research Organisation (CSIRO)
@@ -9,6 +10,9 @@
 #
 # @TAG(DATA61_BSD)
 #
-# Test easy-settings file
 
+# set(PLATFORM "tx1" CACHE STRING "Platform to use")
 set(RELEASE OFF CACHE BOOL "Performance optimized build")
+# set(CAMKES_VM_APP "vm_minimal" CACHE STRING "CAmkES VM application to build")
+
+# --- VM APPS EASY-SETTINGS END ---

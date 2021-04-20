@@ -183,4 +183,14 @@ repo sync
 
 ## Building the project
 
+Currently supported platforms:
+* QEMU ARM virt machine
 
+The following example builds the project for the QEMU ARM virt machine:
+
+```
+mkdir build
+cd build
+../init-build.sh -DCAMKES_VM_APP=vm_cross_connector -DPLATFORM=qemu-arm-v
+ninja
+```
