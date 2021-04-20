@@ -191,6 +191,6 @@ The following example builds the project for the QEMU ARM virt machine:
 ```
 mkdir build
 cd build
-../init-build.sh -DCAMKES_VM_APP=vm_cross_connector -DPLATFORM=qemu-arm-v
+../init-build.sh -DPLATFORM=qemu-arm-virt
 ninja
 ```
