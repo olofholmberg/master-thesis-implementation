@@ -220,7 +220,7 @@ DeclareCAmkESComponent(CrossvmInit SOURCES components/CrossvmInit/crossvm_init.c
 
 # Declare root server
 DeclareCAmkESRootserver(
-    vm_cross_connector.camkes
+    main.camkes
     CPP_FLAGS
     ${cpp_flags}
     CPP_INCLUDES

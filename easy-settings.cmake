@@ -1,4 +1,3 @@
-# --- VM APPS EASY-SETTINGS ---
 #
 # Copyright 2019, Data61
 # Commonwealth Scientific and Industrial Research Organisation (CSIRO)
@@ -15,4 +14,3 @@
 set(RELEASE OFF CACHE BOOL "Performance optimized build")
 # set(CAMKES_VM_APP "vm_minimal" CACHE STRING "CAmkES VM application to build")
 
-# --- VM APPS EASY-SETTINGS END ---

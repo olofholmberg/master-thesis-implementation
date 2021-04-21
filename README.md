@@ -191,6 +191,14 @@ The following example builds the project for the QEMU ARM virt machine:
 ```
 mkdir build
 cd build
-../init-build.sh -DPLATFORM=qemu-arm-virt
+../init-build.sh -DPLATFORM=qemu-arm-virt -DSIMULATION=1
 ninja
+```
+
+## Usage
+
+Once the buildroot has booted it is possible to login as 'root' and run the program:
+
+```
+/etc/init.d/S91crossvm_test
 ```
