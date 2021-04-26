@@ -14,7 +14,8 @@
 set -e
 echo -ne "CVT: Reading uio0\n\0"
 dataport_read /dev/uio0 4096
-echo -ne "This is a test user string\n\0" | dataport_write /dev/uio0 4096
+echo -ne "CVT: Writing uio1\n\0"
+echo -ne "This is a uio1 string\n\0" | dataport_write /dev/uio1 4096
 echo -ne "CVT: Reading uio0\n\0"
 dataport_read /dev/uio0 4096
 echo -ne "CVT: Waiting uio0\n\0"

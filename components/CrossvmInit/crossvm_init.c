@@ -23,14 +23,18 @@ int run(void)
     int event_nr = 0;
 
     while (1) {
-        ready_wait();
+        ready_init_wait();
         printf("Got an event\n");
         event_nr++;
+        memset(str, 0, sizeof str);
+        strcpy(str, src);
+        printf("Printing from src: \"%s\"", str);
+        memset(src, '\0', 4096);
         memset(dest, '\0', 4096);
         memset(str, 0, sizeof str);
-        sprintf(str, "This is a crossvm dataport test event: %d\n", event_nr);
+        sprintf(str, "This is a crossvm dataport test event string to dest: %d\n", event_nr);
         strcpy(dest, str);
-        done_emit_underlying();
+        done_init_emit_underlying();
     }
 
     return 0;

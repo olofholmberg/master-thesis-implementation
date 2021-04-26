@@ -14,8 +14,8 @@ import <devices.camkes>;
 
 component CrossvmInit {
     control;
-    consumes Ready ready;
-    emits Done done;
+    consumes ReadyInit ready_init;
+    emits DoneInit done_init;
     dataport Buf(4096) dest;
     dataport Buf(4096) src;
 }
@@ -23,10 +23,10 @@ component CrossvmInit {
 // These interfaces are visible to the guest linux
 component VM {
     VM_INIT_DEF()
-    dataport Buf(4096) crossvm_dp_0;
-    dataport Buf(4096) crossvm_dp_1;
-    emits Ready ready;
-    consumes Done done;
+    dataport Buf(4096) dp1;
+    dataport Buf(4096) dp2;
+    emits ReadyInit ready_init;
+    consumes DoneInit done_init;
 }
 
 assembly {
@@ -35,14 +35,14 @@ assembly {
         VM_COMPOSITION_DEF(0)
         component CrossvmInit crossvm_init;
 
-        connection seL4Notification event_conn_0(from vm0.ready,
-                                             to crossvm_init.ready);
-        connection seL4GlobalAsynch event_conn_1(from crossvm_init.done,
-                                             to vm0.done);
+        connection seL4Notification event_conn_0(from vm0.ready_init,
+                                             to crossvm_init.ready_init);
+        connection seL4GlobalAsynch event_conn_1(from crossvm_init.done_init,
+                                             to vm0.done_init);
         connection seL4SharedDataWithCaps cross_vm_conn_0(from crossvm_init.dest,
-                                                              to vm0.crossvm_dp_0);
+                                                              to vm0.dp1);
         connection seL4SharedDataWithCaps cross_vm_conn_1(from crossvm_init.src,
-                                                              to vm0.crossvm_dp_1);
+                                                              to vm0.dp2);
         connection seL4VMDTBPassthrough vm_dtb(from vm0.dtb_self, to vm0.dtb);
     }
     configuration {
@@ -54,9 +54,9 @@ assembly {
         vm0.cnode_size_bits = 23;
         vm0.simple_untyped24_pool = 12;
 
-        vm0.crossvm_dp_0_id = 0;
+        vm0.crossvm_dp_0_id = 1;
         vm0.crossvm_dp_0_size = 4096;
-        vm0.crossvm_dp_1_id = 0;
+        vm0.crossvm_dp_1_id = 2;
         vm0.crossvm_dp_1_size = 4096;
 
 
