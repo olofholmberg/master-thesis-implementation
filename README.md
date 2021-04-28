@@ -170,6 +170,20 @@ Add ninja to PATH:
 PATH=/usr/bin/ninja:$PATH
 ```
 
+## Aquire and setup git token
+
+To ease the use of https and avoid ssh a token can be generated and used instead of the password.
+
+Go to github -> settings -> developer settings -> personal access tokens and generate a new token.
+
+Then enable storage of git credentials before using it:
+
+```
+git config --global credential.helper store
+```
+
+And now the https access of the repo should work.
+
 ## Get the code
 
 This step requires access to both this repository and the manifest repository: https://github.com/olofholmberg/master-thesis-sel4-manifest
@@ -177,7 +191,7 @@ This step requires access to both this repository and the manifest repository: h
 ```
 mkdir master-thesis-implementation
 cd master-thesis-implementation
-repo init -u git@github.com:olofholmberg/master-thesis-sel4-manifest.git
+repo init -u https://github.com/olofholmberg/master-thesis-sel4-manifest.git
 repo sync
 ```
 
