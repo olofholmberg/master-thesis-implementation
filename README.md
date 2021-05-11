@@ -79,6 +79,7 @@ sudo apt install qemu-system
 sudo apt install qemu-system-arm
 sudo apt install qemu-system-misc
 sudo apt install qemu-system-x86
+sudo apt install rsync
 sudo apt install texinfo
 sudo apt install u-boot-tools
 sudo apt install zlib1g-dev
