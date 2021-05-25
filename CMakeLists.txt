@@ -18,8 +18,10 @@ include(external-project-helpers)
 # Create our CPP Flags based on ARM VM config variables
 if("${PLATFORM}" STREQUAL "qemu-arm-virt")
     set(cpp_flags "-DKERNELARMPLATFORM_QEMU-ARM-VIRT")
-    set(linux_repo "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git")
-    set(linux_tag "v4.9.189")
+    set(linux_repo "https://git.yoctoproject.org/git/linux-yocto/")
+    #set(linux_repo "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git")
+    set(linux_tag "v5.10.25")
+    #set(linux_tag "v4.9.189")
     set(linux_arch "arm64")
     set(linux_cross_compile "aarch64-linux-gnu-")
     include(simulation)
@@ -29,9 +31,11 @@ if("${PLATFORM}" STREQUAL "qemu-arm-virt")
     endif()
 endif()
 
-AddToFileServer("linux" "${CAMKES_VM_IMAGES_DIR}/${KernelARMPlatform}/linux")
+AddToFileServer("linux" "${MASTER_THESIS_SEL4_IMAGES_DIR}/work/build/tmp/deploy/images/qemuarm64/Image")
+#AddToFileServer("linux" "${CAMKES_VM_IMAGES_DIR}/${KernelARMPlatform}/linux")
 
-set(rootfs_file "${CAMKES_VM_IMAGES_DIR}/${KernelARMPlatform}/rootfs.cpio.gz")
+set(rootfs_file "${MASTER_THESIS_SEL4_IMAGES_DIR}/work/build/tmp/deploy/images/qemuarm64/vm-qemuarm64.cpio.gz")
+#set(rootfs_file "${CAMKES_VM_IMAGES_DIR}/${KernelARMPlatform}/rootfs.cpio.gz")
 
 # Checkout and configure linux to build crossvm module
 ExternalProject_Add(
@@ -55,8 +59,10 @@ ExternalProject_Add(
 )
 
 # Linux config and symvers are to be copied to unpacked archive
-set(linux_config "${CAMKES_VM_IMAGES_DIR}/${KernelARMPlatform}/linux_configs/config")
-set(linux_symvers "${CAMKES_VM_IMAGES_DIR}/${KernelARMPlatform}/linux_configs/Module.symvers")
+set(linux_config "${MASTER_THESIS_SEL4_IMAGES_DIR}/work/build/work-shared/qemuarm64/kernel-build-artifacts/.config")
+#set(linux_config "${CAMKES_VM_IMAGES_DIR}/${KernelARMPlatform}/linux_configs/config")
+set(linux_symvers "${MASTER_THESIS_SEL4_IMAGES_DIR}/work/build/work-shared/qemuarm64/kernel-build-artifacts/Module.symvers")
+#set(linux_symvers "${CAMKES_VM_IMAGES_DIR}/${KernelARMPlatform}/linux_configs/Module.symvers")
 
 # Configure unpacked archive with config and symvers
 ConfigureLinux(
@@ -90,7 +96,8 @@ DefineLinuxModule(
 AddFileToOverlayDir(
     "connection.ko"
     ${output_module}
-    "lib/modules/4.14.87/kernel/drivers/vmm"
+    "lib/modules/5.10.25-yocto-standard/kernel/drivers/vmm"
+    #"lib/modules/4.14.87/kernel/drivers/vmm"
     overlay
     DEPENDS
     output_module_target
