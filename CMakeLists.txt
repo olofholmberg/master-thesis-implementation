@@ -12,6 +12,8 @@ include(${CAMKES_VM_LINUX_HELPERS_PATH})
 include(${CAMKES_VM_LINUX_MODULE_HELPERS_PATH})
 include(${CAMKES_VM_LINUX_SOURCE_HELPERS_PATH})
 
+find_package(master-thesis-sel4-images REQUIRED)
+
 include(ExternalProject)
 include(external-project-helpers)
 
@@ -59,9 +61,9 @@ ExternalProject_Add(
 )
 
 # Linux config and symvers are to be copied to unpacked archive
-set(linux_config "${MASTER_THESIS_SEL4_IMAGES_DIR}/work/build/work-shared/qemuarm64/kernel-build-artifacts/.config")
+set(linux_config "${MASTER_THESIS_SEL4_IMAGES_DIR}/work/build/tmp/work-shared/qemuarm64/kernel-build-artifacts/.config")
 #set(linux_config "${CAMKES_VM_IMAGES_DIR}/${KernelARMPlatform}/linux_configs/config")
-set(linux_symvers "${MASTER_THESIS_SEL4_IMAGES_DIR}/work/build/work-shared/qemuarm64/kernel-build-artifacts/Module.symvers")
+set(linux_symvers "${MASTER_THESIS_SEL4_IMAGES_DIR}/work/build/tmp/work-shared/qemuarm64/kernel-build-artifacts/Module.symvers")
 #set(linux_symvers "${CAMKES_VM_IMAGES_DIR}/${KernelARMPlatform}/linux_configs/Module.symvers")
 
 # Configure unpacked archive with config and symvers
