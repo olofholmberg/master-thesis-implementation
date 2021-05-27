@@ -105,6 +105,8 @@ AddFileToOverlayDir(
     output_module_target
 )
 
+AddFileToOverlayDir("init" ${CMAKE_CURRENT_LIST_DIR}/init "." vm-overlay)
+
 # Complile CrossVM Dataport Apps
 ExternalProject_Add(
     dataport-apps
