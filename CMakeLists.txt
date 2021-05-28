@@ -12,7 +12,7 @@ include(${CAMKES_VM_LINUX_HELPERS_PATH})
 include(${CAMKES_VM_LINUX_MODULE_HELPERS_PATH})
 include(${CAMKES_VM_LINUX_SOURCE_HELPERS_PATH})
 
-find_package(master-thesis-sel4-images REQUIRED)
+find_package(master-thesis-images REQUIRED)
 
 include(ExternalProject)
 include(external-project-helpers)
