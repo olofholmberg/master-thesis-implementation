@@ -258,3 +258,10 @@ sudo ip link set dev tap0 up
 
 It should now be possible to ping the host (192.168.0.11) from the VM and to ping the VM (192.168.0.10) from the host.
 
+
+## Running qemu with disks
+
+```
+sudo ./simulate --extra-qemu-args="-netdev-device virtio-blk-pci,drive=drive0 -drive file=filesystem/testimage,format=raw,if=none,id=drive0"
+```
+
