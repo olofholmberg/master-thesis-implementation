@@ -217,3 +217,44 @@ Once the buildroot has booted it is possible to login as 'root' and run the prog
 ```
 /etc/init.d/S91crossvm_test
 ```
+
+## Set up network in the seL4 guest
+
+First start the simulation with:
+
+```
+sudo ./simulate --extra-qemu-args="-netdev tap,id=mynet0,ifname=tap0,script=no,downscript=no -device virtio-net,netdev=mynet0,mac=52:55:00:d1:55:01,disable-modern=on,disable-legacy=off"
+```
+
+Then add an ip address to the guest interface:
+
+```
+vi /etc/network/interfaces
+```
+
+And add the following:
+
+```
+auto eth0
+iface eth0 inet static
+address 192.168.0.10
+netmask 255.255.255.0
+```
+
+Then save and run:
+
+```
+ifup eth0
+```
+
+## Set up network on the host
+
+Run the tap.sh script or:
+
+```
+sudo ip addr add 192.168.0.11/24 dev tap0
+sudo ip link set dev tap0 up
+```
+
+It should now be possible to ping the host (192.168.0.11) from the VM and to ping the VM (192.168.0.10) from the host.
+

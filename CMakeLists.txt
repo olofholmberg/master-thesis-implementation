@@ -18,7 +18,7 @@ include(ExternalProject)
 include(external-project-helpers)
 
 # Create our CPP Flags based on ARM VM config variables
-if("${PLATFORM}" STREQUAL "qemu-arm-virt")
+if("${PLATFORM}" STREQUAL "qemu-arm-virt")set(rootfs_file "${MASTER_THESIS_SEL4_IMAGES_DIR}/work/build/tmp/deploy/images/qemuarm64/vm-initramfs-qemuarm64.cpio.gz")
     set(cpp_flags "-DKERNELARMPLATFORM_QEMU-ARM-VIRT")
     set(linux_repo "https://git.yoctoproject.org/git/linux-yocto/")
     #set(linux_repo "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git")
@@ -36,7 +36,8 @@ endif()
 AddToFileServer("linux" "${MASTER_THESIS_SEL4_IMAGES_DIR}/work/build/tmp/deploy/images/qemuarm64/Image")
 #AddToFileServer("linux" "${CAMKES_VM_IMAGES_DIR}/${KernelARMPlatform}/linux")
 
-set(rootfs_file "${MASTER_THESIS_SEL4_IMAGES_DIR}/work/build/tmp/deploy/images/qemuarm64/vm-qemuarm64.cpio.gz")
+set(rootfs_file "${MASTER_THESIS_SEL4_IMAGES_DIR}/work/build/tmp/deploy/images/qemuarm64/vm-initramfs-qemuarm64.cpio.gz")
+#set(rootfs_file "${MASTER_THESIS_SEL4_IMAGES_DIR}/work/build/tmp/deploy/images/qemuarm64/vm-qemuarm64.cpio.gz")
 #set(rootfs_file "${CAMKES_VM_IMAGES_DIR}/${KernelARMPlatform}/rootfs.cpio.gz")
 
 # Checkout and configure linux to build crossvm module
