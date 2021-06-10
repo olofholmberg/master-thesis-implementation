@@ -34,7 +34,7 @@ assembly {
             "initrd_addr" : VAR_STRINGIZE(VM_INITRD_ADDR)
         };
         vm0.linux_image_config = {
-            "linux_bootcmdline" : "pci=nomsi,realloc=off,bios initcall_blacklist=clk_disable_unused",
+            "linux_bootcmdline" : "pci=nomsi",
             "linux_stdout" : "/pl011@9000000",
         };
 
