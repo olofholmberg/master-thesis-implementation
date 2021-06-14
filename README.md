@@ -259,9 +259,29 @@ sudo ip link set dev tap0 up
 It should now be possible to ping the host (192.168.0.11) from the VM and to ping the VM (192.168.0.10) from the host.
 
 
-## Running qemu with disks
+## Running the ovs-testcontroller
+
+Start the seL4 simulation with virtio device.
+
+Then in the guest in seL4 run:
 
 ```
-sudo ./simulate --extra-qemu-args="-netdev-device virtio-blk-pci,drive=drive0 -drive file=filesystem/testimage,format=raw,if=none,id=drive0"
+ovs-testcontroller ptcp:
 ```
+
+This will run the testcontroller on port 6653. **IMPORTANT:** Currently the testcontroller cannot print verbose output since it causes a segmentation fault. Unclear wether this is because of limitations in the seL4 guest or a bug within the controller.
+
+Then on the host that is running seL4 run:
+
+```
+sudo mn --topo single,3 --mac --switch ovsk --controller remote,ip=192.168.0.10,port=6653
+```
+
+And in mininet run:
+
+```
+xterm h1 h2 h3
+```
+
+Then the end hosts in mininet should be able to find eachother using the openvswitch controller that is running in the guest of seL4.
 
