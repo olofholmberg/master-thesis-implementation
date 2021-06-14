@@ -36,6 +36,7 @@ endif()
 AddToFileServer("linux" "${MASTER_THESIS_SEL4_IMAGES_DIR}/work/build/tmp/deploy/images/qemuarm64/Image")
 #AddToFileServer("linux" "${CAMKES_VM_IMAGES_DIR}/${KernelARMPlatform}/linux")
 
+#set(rootfs_file "${MASTER_THESIS_SEL4_IMAGES_DIR}/work/build/tmp/deploy/images/qemuarm64/vm-initramfs-qemuarm64.cpio.gz")
 set(rootfs_file "${MASTER_THESIS_SEL4_IMAGES_DIR}/work/build/tmp/deploy/images/qemuarm64/vm-qemuarm64.cpio.gz")
 #set(rootfs_file "${CAMKES_VM_IMAGES_DIR}/${KernelARMPlatform}/rootfs.cpio.gz")
 
