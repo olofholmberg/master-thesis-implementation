@@ -179,6 +179,27 @@ AddExternalProjFilesToOverlay(
     consumes_event_wait
 )
 
+# Compile CrossVMC Apps
+ExternalProject_Add(
+    crossvmc-app
+    SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/apps/crossvmc
+    BINARY_DIR ${CMAKE_BINARY_DIR}/crossvmc-app
+    BUILD_ALWAYS ON
+    EXCLUDE_FROM_ALL
+    INSTALL_COMMAND
+    ""
+    CMAKE_ARGS
+        -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
+)
+AddExternalProjFilesToOverlay(
+    crossvmc-app
+    ${CMAKE_BINARY_DIR}/crossvmc-app
+    overlay
+    "usr/sbin"
+    FILES
+    crossvmc
+)
+
 # Add script to initialise dataport module
 AddFileToOverlayDir(
     "S90crossvm_module_init"
