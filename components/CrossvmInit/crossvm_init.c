@@ -34,8 +34,8 @@ int run(void)
         memset(str, 0, sizeof str);
         //strcpy(str, src);
         
-        test_data mycopy;
-        memcpy(&mycopy, src, sizeof(test_data));
+        struct test_data mycopy;
+        memcpy(&mycopy, src, sizeof(mycopy));
         
         printf("Printing num1: \"%i\"\n", mycopy.num1);
         printf("Printing num2: \"%i\"\n", mycopy.num2);
