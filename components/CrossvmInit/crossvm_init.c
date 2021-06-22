@@ -13,6 +13,11 @@
 #include <string.h>
 #include <camkes.h>
 
+struct test_data {
+    int num1;
+    int num2;
+};
+
 int run(void)
 {
     memset(dest, '\0', 4096);
@@ -27,8 +32,13 @@ int run(void)
         printf("Got an event\n");
         event_nr++;
         memset(str, 0, sizeof str);
-        strcpy(str, src);
-        printf("Printing from src: \"%s\"", str);
+        //strcpy(str, src);
+        
+        test_data mycopy;
+        memcpy(&mycopy, src, sizeof(test_data));
+        
+        printf("Printing num1: \"%i\"\n", mycopy.num1);
+        printf("Printing num2: \"%i\"\n", mycopy.num2);
         memset(src, '\0', 4096);
         memset(dest, '\0', 4096);
         memset(str, 0, sizeof str);
