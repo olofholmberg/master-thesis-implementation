@@ -16,9 +16,15 @@
 int run(void)
 {
     memset(dest, '\0', 4096);
+    
+    int nr_execution = 0;
 
     while (1) {
         ready_init_wait();
+        
+        nr_execution++;
+        
+        printf("--- Execution nr: %d ---", nr_execution);
         
         int vconn_error;
         memcpy(&vconn_error, src, sizeof(vconn_error));
