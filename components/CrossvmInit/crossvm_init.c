@@ -13,37 +13,21 @@
 #include <string.h>
 #include <camkes.h>
 
-struct test_data {
-    int num1;
-    int num2;
-};
-
 int run(void)
 {
     memset(dest, '\0', 4096);
-    char str[200];
-    sprintf(str, "This is a crossvm dataport test string\n");
-    strcpy(dest, str);
-    
-    int event_nr = 0;
 
     while (1) {
         ready_init_wait();
-        printf("Got an event\n");
-        event_nr++;
-        memset(str, 0, sizeof str);
-        //strcpy(str, src);
         
-        struct test_data mycopy;
-        memcpy(&mycopy, src, sizeof(mycopy));
+        int vconn_error;
+        memcpy(&vconn_error, src, sizeof(vconn_error));
+        printf("Obtained error code: %d\n", vconn_error);
         
-        printf("Printing num1: \"%i\"\n", mycopy.num1);
-        printf("Printing num2: \"%i\"\n", mycopy.num2);
-        memset(src, '\0', 4096);
-        memset(dest, '\0', 4096);
-        memset(str, 0, sizeof str);
-        sprintf(str, "This is a crossvm dataport test event string to dest: %d\n", event_nr);
-        strcpy(dest, str);
+        int retval = vconn_error == EAGAIN ? 0 : vconn_error;
+        memcpy(dest, &retval, sizeof(retval)); 
+        
+        printf("seL4 execution done with vconn_error: %d\n", retval);
         done_init_emit_underlying();
     }
 
