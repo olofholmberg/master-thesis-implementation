@@ -1,15 +1,3 @@
-/*
- * Copyright 2019, Data61
- * Commonwealth Scientific and Industrial Research Organisation (CSIRO)
- * ABN 41 687 119 230.
- *
- * This software may be distributed and modified according to the terms of
- * the BSD 2-Clause license. Note that NO WARRANTY is provided.
- * See "LICENSE_BSD2.txt" for details.
- *
- * @TAG(DATA61_BSD)
- */
-
 #include <camkes.h>
 #include <vmlinux.h>
 #include <sel4vm/guest_vm.h>
@@ -29,7 +17,7 @@ extern dataport_caps_handle_t dp1_handle;
 extern dataport_caps_handle_t dp2_handle;
 
 static struct camkes_crossvm_connection connections[] = {
-    {&dp1_handle, ready_init_emit, -1, "conn_1"},
+    {&dp1_handle, ready_vee_emit, -1, "conn_1"},
     {&dp2_handle, NULL, -1, "conn_2"}
 };
 
@@ -42,7 +30,7 @@ static int consume_callback(vm_t *vm, void *cookie)
 extern seL4_Word done_init_notification_badge(void);
 void init_cross_vm_connections(vm_t *vm, void *cookie)
 {
-    connections[0].consume_badge = done_init_notification_badge();
+    connections[0].consume_badge = done_vee_notification_badge();
     int err = register_async_event_handler(connections[0].consume_badge, consume_callback, NULL);
     ZF_LOGF_IF(err, "Failed to register_async_event_handler for init_cross_vm_connections.");
 
