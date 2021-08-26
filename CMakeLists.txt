@@ -12,7 +12,7 @@ include(${CAMKES_VM_LINUX_HELPERS_PATH})
 include(${CAMKES_VM_LINUX_MODULE_HELPERS_PATH})
 include(${CAMKES_VM_LINUX_SOURCE_HELPERS_PATH})
 
-find_package(master-thesis-images REQUIRED)
+find_package(master-thesis-vm-images REQUIRED)
 
 include(ExternalProject)
 include(external-project-helpers)
@@ -21,9 +21,7 @@ include(external-project-helpers)
 if("${PLATFORM}" STREQUAL "qemu-arm-virt")
     set(cpp_flags "-DKERNELARMPLATFORM_QEMU-ARM-VIRT")
     set(linux_repo "https://git.yoctoproject.org/git/linux-yocto/")
-    #set(linux_repo "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git")
     set(linux_tag "v5.10.25")
-    #set(linux_tag "v4.9.189")
     set(linux_arch "arm64")
     set(linux_cross_compile "aarch64-linux-gnu-")
     include(simulation)
@@ -33,12 +31,8 @@ if("${PLATFORM}" STREQUAL "qemu-arm-virt")
     endif()
 endif()
 
-AddToFileServer("linux" "${MASTER_THESIS_SEL4_IMAGES_DIR}/work/build/tmp/deploy/images/qemuarm64/Image")
-#AddToFileServer("linux" "${CAMKES_VM_IMAGES_DIR}/${KernelARMPlatform}/linux")
-
-#set(rootfs_file "${MASTER_THESIS_SEL4_IMAGES_DIR}/work/build/tmp/deploy/images/qemuarm64/vm-initramfs-qemuarm64.cpio.gz")
-set(rootfs_file "${MASTER_THESIS_SEL4_IMAGES_DIR}/work/build/tmp/deploy/images/qemuarm64/vm-qemuarm64.cpio.gz")
-#set(rootfs_file "${CAMKES_VM_IMAGES_DIR}/${KernelARMPlatform}/rootfs.cpio.gz")
+AddToFileServer("linux" "${MASTER_THESIS_VM_IMAGES_DIR}/work/build/tmp/deploy/images/qemuarm64/Image")
+set(rootfs_file "${MASTER_THESIS_VM_IMAGES_DIR}/work/build/tmp/deploy/images/qemuarm64/vm-qemuarm64.cpio.gz")
 
 # Checkout and configure linux to build crossvm module
 ExternalProject_Add(
@@ -62,10 +56,8 @@ ExternalProject_Add(
 )
 
 # Linux config and symvers are to be copied to unpacked archive
-set(linux_config "${MASTER_THESIS_SEL4_IMAGES_DIR}/work/build/tmp/work-shared/qemuarm64/kernel-build-artifacts/.config")
-#set(linux_config "${CAMKES_VM_IMAGES_DIR}/${KernelARMPlatform}/linux_configs/config")
-set(linux_symvers "${MASTER_THESIS_SEL4_IMAGES_DIR}/work/build/tmp/work-shared/qemuarm64/kernel-build-artifacts/Module.symvers")
-#set(linux_symvers "${CAMKES_VM_IMAGES_DIR}/${KernelARMPlatform}/linux_configs/Module.symvers")
+set(linux_config "${MASTER_THESIS_VM_IMAGES_DIR}/work/build/tmp/work-shared/qemuarm64/kernel-build-artifacts/.config")
+set(linux_symvers "${MASTER_THESIS_VM_IMAGES_DIR}/work/build/tmp/work-shared/qemuarm64/kernel-build-artifacts/Module.symvers")
 
 # Configure unpacked archive with config and symvers
 ConfigureLinux(

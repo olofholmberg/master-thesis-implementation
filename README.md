@@ -171,7 +171,7 @@ Add ninja to PATH:
 PATH=/usr/bin/ninja:$PATH
 ```
 
-## Aquire and setup git token
+## Aquire and setup git token (Optional)
 
 To ease the use of https and avoid ssh a token can be generated and used instead of the password.
 
@@ -190,18 +190,27 @@ And now the https access of the repo should work.
 This step requires access to both this repository and the manifest repository: https://github.com/olofholmberg/master-thesis-sel4-manifest
 
 ```
-mkdir master-thesis-implementation
-cd master-thesis-implementation
-repo init -u https://github.com/olofholmberg/master-thesis-sel4-manifest.git
+mkdir master-thesis-project
+cd master-thesis-project
+repo init -u https://github.com/olofholmberg/master-thesis-manifest.git
 repo sync
+```
+
+## Building the Yocto image
+
+This step both requires and results in a lot of used disk space (
+
+```
+cd projects/master-thesis-vm-images
+./build.sh
 ```
 
 ## Building the project
 
 Currently supported platforms:
-* QEMU ARM virt machine
+* QEMU ARM virt machine (qemu-arm-virt)
 
-The following example builds the project for the QEMU ARM virt machine:
+The following example builds the project for the QEMU ARM virt machine. In the root folder (master-thesis-project):
 
 ```
 mkdir build
