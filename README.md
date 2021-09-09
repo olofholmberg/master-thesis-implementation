@@ -219,14 +219,6 @@ cd build
 ninja
 ```
 
-## Usage
-
-Once the buildroot has booted it is possible to login as 'root' and run the program:
-
-```
-/etc/init.d/S91crossvm_test
-```
-
 ## Set up network in the seL4 guest
 
 First start the simulation with:
@@ -278,9 +270,9 @@ Then in the guest in seL4 run:
 ovs-testcontroller ptcp:
 ```
 
-This will run the testcontroller on port 6653. **IMPORTANT:** Currently the testcontroller cannot print verbose output since it causes a segmentation fault. Unclear wether this is because of limitations in the seL4 guest or a bug within the controller.
+This will run the testcontroller on port 6653. **IMPORTANT:** Currently the testcontroller cannot print verbose output since it causes a segmentation fault.
 
-Then on the host that is running seL4 run:
+Then on the host that is running QEMU simulating seL4 run:
 
 ```
 sudo mn --topo single,3 --mac --switch ovsk --controller remote,ip=192.168.0.10,port=6653
