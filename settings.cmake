@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.7.2)
 
-set(CAMKES_ARM_LINUX_DIR "${CMAKE_CURRENT_LIST_DIR}/linux" CACHE STRING "")
-
 set(project_dir "${CMAKE_CURRENT_LIST_DIR}/../../")
 set(supported "qemu-arm-virt")
 
@@ -20,8 +18,6 @@ set(CAMKES_CONFIG_DEFAULT_ADVANCED ON)
 mark_as_advanced(CMAKE_INSTALL_PREFIX)
 include(application_settings)
 
-include(${CMAKE_CURRENT_LIST_DIR}/easy-settings.cmake)
-
 # Kernel settings
 set(KernelArch "arm" CACHE STRING "" FORCE)
 if(AARCH64)
@@ -39,9 +35,6 @@ if(NOT "${PLATFORM}" IN_LIST supported)
     message(FATAL_ERROR "PLATFORM: ${PLATFORM} not supported.
          Supported: ${supported}")
 endif()
-
-set(VmPCISupport ON CACHE BOOL "" FORCE)
-set(VmInitRdFile ON CACHE BOOL "" FORCE)
 
 if(${PLATFORM} STREQUAL "qemu-arm-virt")
     set(QEMU_MEMORY "2048")
