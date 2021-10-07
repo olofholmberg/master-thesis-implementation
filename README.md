@@ -171,7 +171,7 @@ Add ninja to PATH:
 PATH=/usr/bin/ninja:$PATH
 ```
 
-## Aquire and setup git token (Optional)
+## Aquire and setup git token
 
 To ease the use of https and avoid ssh a token can be generated and used instead of the password.
 
@@ -190,33 +190,32 @@ And now the https access of the repo should work.
 This step requires access to both this repository and the manifest repository: https://github.com/olofholmberg/master-thesis-sel4-manifest
 
 ```
-mkdir master-thesis-project
-cd master-thesis-project
-repo init -u https://github.com/olofholmberg/master-thesis-manifest.git
+mkdir master-thesis-implementation
+cd master-thesis-implementation
+repo init -u https://github.com/olofholmberg/master-thesis-sel4-manifest.git
 repo sync
-```
-
-## Building the Yocto image
-
-This step both requires and results in a lot of used disk space (
-
-```
-cd projects/master-thesis-vm-images
-./build.sh
 ```
 
 ## Building the project
 
 Currently supported platforms:
-* QEMU ARM virt machine (qemu-arm-virt)
+* QEMU ARM virt machine
 
-The following example builds the project for the QEMU ARM virt machine. In the root folder (master-thesis-project):
+The following example builds the project for the QEMU ARM virt machine:
 
 ```
 mkdir build
 cd build
 ../init-build.sh -DPLATFORM=qemu-arm-virt -DSIMULATION=1
 ninja
+```
+
+## Usage
+
+Once the buildroot has booted it is possible to login as 'root' and run the program:
+
+```
+/etc/init.d/S91crossvm_test
 ```
 
 ## Set up network in the seL4 guest
@@ -270,9 +269,9 @@ Then in the guest in seL4 run:
 ovs-testcontroller ptcp:
 ```
 
-This will run the testcontroller on port 6653. **IMPORTANT:** Currently the testcontroller cannot print verbose output since it causes a segmentation fault.
+This will run the testcontroller on port 6653. **IMPORTANT:** Currently the testcontroller cannot print verbose output since it causes a segmentation fault. Unclear wether this is because of limitations in the seL4 guest or a bug within the controller.
 
-Then on the host that is running QEMU simulating seL4 run:
+Then on the host that is running seL4 run:
 
 ```
 sudo mn --topo single,3 --mac --switch ovsk --controller remote,ip=192.168.0.10,port=6653

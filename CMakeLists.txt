@@ -92,7 +92,6 @@ AddFileToOverlayDir(
     "connection.ko"
     ${output_module}
     "lib/modules/5.10.25-yocto-standard/kernel/drivers/vmm"
-    #"lib/modules/4.14.87/kernel/drivers/vmm"
     overlay
     DEPENDS
     output_module_target
@@ -206,10 +205,10 @@ DefineCAmkESVMFileServer()
 
 CAmkESAddImportPath(${KernelARMPlatform})
 
-# Define our VM Component with our cross vm dataports glue code
+# Define our VM Component with out cross vm dataports glue code
 DeclareCAmkESComponent(VM SOURCES src/cross_vm_connections.c)
 
-# The VEE Component that shares two dataports with the VM
+# Define our demo component that shares a dataport with the VM
 DeclareCAmkESComponent(VconnErrorEvaluator SOURCES components/VconnErrorEvaluator/vconn_error_evaluator.c)
 
 # Declare root server

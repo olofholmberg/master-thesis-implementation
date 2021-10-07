@@ -14,19 +14,18 @@ import <devices.camkes>;
 
 component VconnErrorEvaluator {
     control;
-    consumes ReadyInit ready_vee;
-    emits DoneInit done_vee;
+    consumes ReadyVee ready_vee;
+    emits DoneVee done_vee;
     dataport Buf(4096) dest;
     dataport Buf(4096) src;
 }
 
-// These interfaces are visible to the guest linux
 component VM {
     VM_INIT_DEF()
     dataport Buf(4096) dp1;
     dataport Buf(4096) dp2;
-    emits ReadyInit ready_vee;
-    consumes DoneInit done_vee;
+    emits ReadyVee ready_vee;
+    consumes DoneVee done_vee;
 }
 
 assembly {
