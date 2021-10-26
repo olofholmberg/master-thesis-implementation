@@ -8,7 +8,7 @@ This project was conducted using Ubuntu 20.04. To setup the system follow these 
 
 Download and install ubuntu-20.04.2.0-desktop-amd64.iso: https://releases.ubuntu.com/20.04/
 
-Estimated free disk space required is around 100 GB total.
+Estimated free disk space required is around 100-150 GB total. 
 
 First change root password on the Ubuntu installation:
 
@@ -132,11 +132,11 @@ PATH=/usr/bin/ninja:$PATH
 
 ## Get the code
 
-This step requires access to both this repository and the manifest repository: https://github.com/olofholmberg/master-thesis-sel4-manifest
+The code and all relevant support repositories can be fetched using the repo tool:
 
 ```
-mkdir master-thesis-implementation
-cd master-thesis-implementation
+mkdir master-thesis
+cd master-thesis
 repo init -u https://github.com/olofholmberg/master-thesis-manifest.git
 repo sync
 ```
@@ -158,7 +158,7 @@ Currently supported platforms:
 * QEMU ARM virt machine
 
 The following commands builds the project for the QEMU ARM virt machine.
-Run the commands in the master-thesis-implementation folder:
+Run the commands in the master-thesis folder:
 
 ```
 mkdir build
@@ -178,7 +178,7 @@ The dataports connecting the VM and the component has to be initialized:
 
 ## Provide network to the guest VM
 
-In order to pass a network device to the guest in seL4 the simulation has to be started with the following command:
+In order to pass a network device to the guest VM in seL4 the simulation has to be started with the following command:
 
 ```
 sudo ./simulate --extra-qemu-args="-netdev tap,id=mynet0,ifname=tap0,script=no,downscript=no -device virtio-net,netdev=mynet0,mac=52:55:00:d1:55:01,disable-modern=on,disable-legacy=off"
@@ -198,7 +198,7 @@ It should now be possible to ping the simulation host (192.168.0.11) from the VM
 
 ## Running the ovs-testcontroller
 
-In the guest in seL4 run:
+In the guest VM in seL4 run:
 
 ```
 ovs-testcontroller ptcp:
@@ -206,7 +206,7 @@ ovs-testcontroller ptcp:
 
 This will run the testcontroller on port 6653.
 
-Then on the host that is running seL4 run:
+Then on the host that is running the seL4 simulation run:
 
 ```
 sudo mn --topo single,3 --mac --switch ovsk --controller remote,ip=192.168.0.10,port=6653
@@ -218,5 +218,6 @@ And in mininet run:
 xterm h1 h2 h3
 ```
 
-Then the end hosts in mininet should be able to find eachother using the openvswitch controller that is running in the guest of seL4.
+Then the end hosts in mininet should be able to find eachother using the openvswitch controller that is running in the guest VM of seL4.
+Test this step by pinging from one mininet host to another. IP addresses are 10.0.0.1 for h1, 10.0.0.2 for h2 and 10.0.0.3 for h3.
 
