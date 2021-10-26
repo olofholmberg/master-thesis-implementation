@@ -1,3 +1,15 @@
+#
+# Copyright 2019, Data61, CSIRO (ABN 41 687 119 230)
+#
+# SPDX-License-Identifier: BSD-2-Clause
+#
+
+#
+# Modified by Olof Holmberg, 2021
+#
+# For licensing information see comment at the top of the file.
+#
+
 cmake_minimum_required(VERSION 3.7.2)
 
 set(CAMKES_ARM_LINUX_DIR "${CMAKE_CURRENT_LIST_DIR}/linux" CACHE STRING "")

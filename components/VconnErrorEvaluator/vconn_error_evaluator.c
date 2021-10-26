@@ -1,3 +1,9 @@
+/*
+ * Copyright 2021, Olof Holmberg
+ *
+ * SPDX-License-Identifier: GPL-2.0-only
+ */
+
 #include <string.h>
 #include <camkes.h>
 

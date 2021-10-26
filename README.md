@@ -8,7 +8,7 @@ This project was conducted using Ubuntu 20.04. To setup the system follow these 
 
 Download and install ubuntu-20.04.2.0-desktop-amd64.iso: https://releases.ubuntu.com/20.04/
 
-Estimated free disk space required is around 100 GB total. Depends mainly on the Docker container sizes but they can be quite large.
+Estimated free disk space required is around 100 GB total.
 
 First change root password on the Ubuntu installation:
 
@@ -124,66 +124,11 @@ curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
 chmod a+x ~/bin/repo
 ```
 
-Then aquire a running build environment for seL4 and Camkes:
-
-Clone the repo in preferred folder (Desktop):
-
-```
-git clone https://github.com/SEL4PROJ/seL4-CAmkES-L4v-dockerfiles.git
-cd seL4-CAmkES-L4v-dockerfiles
-```
-
-Add alias for starting a container:
-
-```
-echo $'alias container=\'make -C /home/olof/Desktop/seL4-CAmkES-L4v-dockerfiles user HOST_DIR=$(pwd)\'' >> ~/.bashrc
-```
-
-Then include RISC compilers in the container:
-
-```
-./build.sh -b sel4 -s riscv
-alias sel4_riscv_container='make -C /home/olof/Desktop/seL4-CAmkES-L4v-dockerfiles user_sel4-riscv HOST_DIR=$(pwd)'
-```
-
-Build the GCC toolchain for RISC-V (the "make linux" command takes a lot of time, likely several hours):
-
-Clone the repo in preferred folder (Desktop):
-
-```
-git clone https://github.com/riscv/riscv-gnu-toolchain.git
-cd riscv-gnu-toolchain
-git submodule update --init --recursive
-export RISCV=/opt/riscv
-./configure --prefix="${RISCV}" --enable-multilib
-sudo make linux
-```
-
-After build add RISC-V bin to PATH:
-
-```
-PATH=$RISCV/bin:$PATH
-```
-
 Add ninja to PATH:
 
 ```
 PATH=/usr/bin/ninja:$PATH
 ```
-
-## Aquire and setup git token
-
-To ease the use of https and avoid ssh a token can be generated and used instead of the password.
-
-Go to github -> settings -> developer settings -> personal access tokens and generate a new token.
-
-Then enable storage of git credentials before using it:
-
-```
-git config --global credential.helper store
-```
-
-And now the https access of the repo should work.
 
 ## Get the code
 
@@ -192,8 +137,19 @@ This step requires access to both this repository and the manifest repository: h
 ```
 mkdir master-thesis-implementation
 cd master-thesis-implementation
-repo init -u https://github.com/olofholmberg/master-thesis-sel4-manifest.git
+repo init -u https://github.com/olofholmberg/master-thesis-manifest.git
 repo sync
+```
+
+## Build the Yocto artifacts:
+
+This step is both time and space consuming.
+Yocto is also not entierly bug free, so errors can still occur during build.
+Rerunning the build script usually resolves errors encountered when building.
+
+```
+cd projects/master-thesis-vm-images
+./build.sh
 ```
 
 ## Building the project
@@ -201,7 +157,8 @@ repo sync
 Currently supported platforms:
 * QEMU ARM virt machine
 
-The following example builds the project for the QEMU ARM virt machine:
+The following commands builds the project for the QEMU ARM virt machine.
+Run the commands in the master-thesis-implementation folder:
 
 ```
 mkdir build
@@ -212,64 +169,42 @@ ninja
 
 ## Usage
 
-Once the buildroot has booted it is possible to login as 'root' and run the program:
+Once the buildroot has booted it is possible to login as 'root' with password 'root'.
+The dataports connecting the VM and the component has to be initialized:
 
 ```
-/etc/init.d/S91crossvm_test
+/etc/init.d/S90crossvm_module_init
 ```
 
-## Set up network in the seL4 guest
+## Provide network to the guest VM
 
-First start the simulation with:
+In order to pass a network device to the guest in seL4 the simulation has to be started with the following command:
 
 ```
 sudo ./simulate --extra-qemu-args="-netdev tap,id=mynet0,ifname=tap0,script=no,downscript=no -device virtio-net,netdev=mynet0,mac=52:55:00:d1:55:01,disable-modern=on,disable-legacy=off"
 ```
 
-Then add an ip address to the guest interface:
-
-```
-vi /etc/network/interfaces
-```
-
-And add the following:
-
-```
-auto eth0
-iface eth0 inet static
-address 192.168.0.10
-netmask 255.255.255.0
-```
-
-Then save and run:
-
-```
-ifup eth0
-```
-
 ## Set up network on the host
 
-Run the tap.sh script or:
+On the host running the QEMU simulation, run the following commands:
 
 ```
 sudo ip addr add 192.168.0.11/24 dev tap0
 sudo ip link set dev tap0 up
 ```
 
-It should now be possible to ping the host (192.168.0.11) from the VM and to ping the VM (192.168.0.10) from the host.
+It should now be possible to ping the simulation host (192.168.0.11) from the VM and to ping the VM (192.168.0.10) from the simulation host.
 
 
 ## Running the ovs-testcontroller
 
-Start the seL4 simulation with virtio device.
-
-Then in the guest in seL4 run:
+In the guest in seL4 run:
 
 ```
 ovs-testcontroller ptcp:
 ```
 
-This will run the testcontroller on port 6653. **IMPORTANT:** Currently the testcontroller cannot print verbose output since it causes a segmentation fault. Unclear wether this is because of limitations in the seL4 guest or a bug within the controller.
+This will run the testcontroller on port 6653.
 
 Then on the host that is running seL4 run:
 
