@@ -1,4 +1,4 @@
-# seL4 SDN Controller Implementation for Master Thesis
+# Master Thesis Implementation for seL4 with VM containing a modified ovs-testcontroller
 
 This is the repository for the implementation of the master thesis project conducted by Olof Holmberg.
 
